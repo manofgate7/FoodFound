@@ -1,3 +1,6 @@
+import React, { useState } from "react";
+
+
 const categories = [
     { title: 'American', id: 1 },
     { title: 'Italian', id: 2 },
@@ -10,7 +13,35 @@ const categories = [
 
   ];
 
+  
+
+  function RandomerButton() {
+    const [id, setId] = useState(0);
+    function handleRadnomClick() {
+        const min = 1;
+        const max = categories.length;
+        const newRandomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+        setId(newRandomNumber);
+      }
+
+      let chooseString = "Chosen Food is " + categories[id-1]?.title;
+    return (
+        <>
+           {
+               id > 0 ? chooseString : null
+           }
+            
+           <br/>
+        <button onClick={handleRadnomClick}>
+            Randomize
+        </button>
+        <br/>
+      </>
+    );
+  }
+
   export default function CategoriesList() {
+    
     const listItems = categories.map(category => 
         <li
       key={category.id}
@@ -20,6 +51,11 @@ const categories = [
         );
 
     return (
-        <ul>{listItems}</ul>
+        <div>
+            <RandomerButton /> 
+
+            Food Categories:
+            <ul>{listItems}</ul>
+        </div>
         );
   }
