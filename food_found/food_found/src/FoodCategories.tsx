@@ -1,3 +1,4 @@
+import { title } from "process";
 import React, { useState } from "react";
 
 
@@ -12,6 +13,7 @@ const initCategories = [
     { title: 'Indian', id: 8 },
 
   ];
+
 
 
   export default function CategoriesList() {
@@ -29,7 +31,7 @@ const initCategories = [
       
             const [name, setName] = useState('');
             function handleAddClick() {
-                let catLength = categories.length + 1;
+                let catLength =Math.max(...categories.map(o => o.id)) + 1;
                 setCategories( // Replace the state
                     [ // with a new array
                       ...categories, // that contains all the old items
@@ -81,14 +83,17 @@ const initCategories = [
         
               function handleUpdateClick(index: number) {
                 const nextCategories = categories.map((c, i) => {
-                    if (i === index) {
+
+                    if (c.id === index) {
+                        
                       // Increment the clicked counter
-                      return {title: name, id: i};
+                      return {title: name, id: index};
                     } else {
                       // The rest haven't changed
                       return c;
                     }
                   });
+                  
                   setCategories(nextCategories);
               }
               function handleDeleteClick(index: number) {
@@ -102,7 +107,7 @@ const initCategories = [
                     
                     { 
                         isUpdate ? (
-                            <div>
+                            <span>
                                 <input value={name}  onChange={e => setName(e.target.value)} />
                                 <button onClick={() => setIsUpdate(false)}>
                                 Cancel
@@ -110,16 +115,16 @@ const initCategories = [
                                 <button onClick={() => handleUpdateClick(index)}>
                                 Save
                                 </button>
-                             </div>
+                             </span>
                         ) : (
-                            <div>
+                            <span>
                                 <button onClick={() => setIsUpdate(true)}>
                                     Update
                                 </button>
                                 <button onClick={() => handleDeleteClick(index)}>
                                     Remove
                                 </button>
-                            </div>
+                            </span>
                         )
                     }
                    
